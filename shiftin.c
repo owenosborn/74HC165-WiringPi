@@ -7,10 +7,10 @@
 #include <time.h>
  
  
-#define NUMBER_OF_SHIFT_CHIPS   2
+#define NUMBER_OF_SHIFT_CHIPS   4
 #define DATA_WIDTH   NUMBER_OF_SHIFT_CHIPS * 8
-//#define PULSE_WIDTH_USEC   5
-#define POLL_DELAY_MSEC   10
+#define PULSE_WIDTH_USEC   1
+#define POLL_DELAY_MSEC   1
 #define BYTES_VAL_T uint32_t
 
 int ploadPin        = 34;  // Connects to Parallel load pin the 165
@@ -29,10 +29,10 @@ BYTES_VAL_T read_shift_regs()
     // load
     digitalWrite(clockEnablePin, HIGH);
     digitalWrite(ploadPin, LOW);
-    //delayMicroseconds(PULSE_WIDTH_USEC);
+    delayMicroseconds(PULSE_WIDTH_USEC);
     digitalWrite(ploadPin, HIGH);
     digitalWrite(clockEnablePin, LOW);
-
+    delayMicroseconds(PULSE_WIDTH_USEC);
     // shiftin
     for(int i = 0; i < DATA_WIDTH; i++)
     {
@@ -41,7 +41,7 @@ BYTES_VAL_T read_shift_regs()
         bytesVal |= (bitVal << ((DATA_WIDTH-1) - i));
 
         digitalWrite(clockPin, HIGH);
-        //delayMicroseconds(PULSE_WIDTH_USEC);
+        delayMicroseconds(PULSE_WIDTH_USEC);
         digitalWrite(clockPin, LOW);
     }
 
